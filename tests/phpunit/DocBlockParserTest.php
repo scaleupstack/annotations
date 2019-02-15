@@ -136,6 +136,28 @@ DocBlock;
 
     /**
      * @test
+     */
+    public function it_parses_docblocks_where_annotation_tag_has_no_argument_string()
+    {
+        // given a docblock with an annotation withouth arguments string
+        $docBlock = <<<DocBlock
+/**
+ * @some-tag-without-argument-list
+ */
+DocBlock;
+
+        // when parsing the annotations
+        $annotations = $this->parser->parse($docBlock);
+
+        // then the annotation is created
+        $expectedAnnotations = new Annotations();
+        $expectedAnnotations->add('some-tag-without-argument-list', '', DocBlockParser::class);
+
+        $this->assertEquals($expectedAnnotations, $annotations);
+    }
+
+    /**
+     * @test
      * @covers ::extractTagsAndArguments()
      * @covers ::trimLeft()
      */

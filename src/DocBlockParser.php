@@ -84,7 +84,7 @@ final class DocBlockParser
             'Lines in a DocBlock must start with " * " or equal to " *", but %s given.'
         );
 
-        // remove leading ' * ' and return
+        // remove leading ' * ' or ' *' and return
         return preg_replace(
             '/^ \* ?/',
             '',
@@ -105,8 +105,8 @@ final class DocBlockParser
         $currentState = $stateSearchStartOfTag;
         foreach ($lines as $line) {
             if ($currentState === $stateSearchStartOfTag) {
-                // pattern: ^@<name-of-tag> <rest of line>
-                $pattern = '(^@([a-z-]*) (.*)$)';
+                // pattern: ^@<name-of-tag><optional: space plus rest of line>
+                $pattern = '(^@([a-z-]*)( (.*))?$)';
                 $count = preg_match($pattern, $line, $matches);
                 if (1 !== $count) {
                     continue;
@@ -114,7 +114,7 @@ final class DocBlockParser
 
                 // line with starting tag
                 $tag = $matches[1];
-                $restOfLine = $matches[2];
+                $restOfLine = array_key_exists(3, $matches) ? $matches[3] : '';
 
                 if ('{' !== $restOfLine) {
                     // single-line arguments string
