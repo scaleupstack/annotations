@@ -276,4 +276,23 @@ DocBlock;
 
         $this->parser->parse($invalidDocBlock);
     }
+
+    /**
+     * @test
+     */
+    public function it_ignores_an_at_sign_without_tag_name()
+    {
+        // given a DocBlock with @ sign but no tag name of the annoation
+        $docBlock = <<<DocBlock
+/**
+ * @ there-was-a-space
+ */
+DocBlock;
+
+        // when parsing the docblock
+        $annotations = $this->parser->parse($docBlock);
+
+        // then an empty Annotations collection is returned
+        $this->assertEquals(new Annotations(), $annotations);
+    }
 }
