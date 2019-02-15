@@ -48,7 +48,7 @@ final class DocBlockParserTest extends TestCase
         $this->assertInstanceOf(DocBlockParser::class, $myParser);
     }
 
-    public function data_provider_with_empty_docblocks()
+    public function data_provider_of_empty_docblocks()
     {
         $nullDocBlock = null;
         $emptyStringDocBlock = '';
@@ -73,7 +73,7 @@ DocBlock;
 
     /**
      * @test
-     * @dataProvider data_provider_with_empty_docblocks
+     * @dataProvider data_provider_of_empty_docblocks
      * @covers ::parse()
      * @covers ::stripDocBlock()
      */
@@ -203,5 +203,55 @@ DocBlock;
         );
 
         $this->assertEquals($expectedAnnotations, $annotations);
+    }
+
+    public function data_provider_of_invalid_doc_blocks()
+    {
+        return [
+            [
+                '/*', // second '*' is missing
+                'First line of DocBlock must be "/**" but "/*" given.',
+            ],
+            [
+                '/** ', // additional space
+                'First line of DocBlock must be "/**" but "/** " given.',
+            ],
+            [
+                "/**\n" .
+                " *//", // additional slash
+                'Last line of DocBlock must be " */" but " *//" given.'
+            ],
+            [
+                "/**\n" .
+                " -\n" . // '-' instead of '*'
+                " */",
+                'Lines in a DocBlock must start with " * " or equal to " *", but " -" given.'
+            ],
+            [
+                "/**\n" .
+                "  \n" . // '*' missing
+                " */",
+                'Lines in a DocBlock must start with " * " or equal to " *", but "  " given.'
+            ],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider data_provider_of_invalid_doc_blocks
+     */
+    public function it_throws_an_exeption_on_invalid_doc_block_formatting(
+        string $invalidDocBlock,
+        string $expectedExceptionMessage
+    )
+    {
+        // given an invalid docblock as provided as parameter
+
+        // when parsing the docblock
+        // then an InvalidArgumentException is thrown
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage($expectedExceptionMessage);
+
+        $this->parser->parse($invalidDocBlock);
     }
 }

@@ -66,7 +66,7 @@ final class DocBlockParser
         Assert::same(
             '/**',
             $firstLine,
-            "First line of DocBlock must be '/**' but %s given."
+            'First line of DocBlock must be "/**" but %2$s given.'
         );
 
         // validate last line
@@ -74,24 +74,22 @@ final class DocBlockParser
         Assert::same(
             ' */',
             $lastLine,
-            "Last line of DocBlock must be ' */' but %s given."
+            'Last line of DocBlock must be " */" but %2$s given.'
         );
 
         // validate other lines
         Assert::allRegex(
             $lines,
             '/^ \*( |$)/',
-            "Lines in a DocBlock must start with ' * ' or equal to ' *', but %s given."
+            'Lines in a DocBlock must start with " * " or equal to " *", but %s given.'
         );
 
-        // remove leading ' * '
-        $lines = preg_replace(
+        // remove leading ' * ' and return
+        return preg_replace(
             '/^ \* ?/',
             '',
             $lines
         );
-
-        return $lines;
     }
 
     /**
@@ -106,42 +104,41 @@ final class DocBlockParser
 
         $currentState = $stateSearchStartOfTag;
         foreach ($lines as $line) {
-            switch ($currentState) {
-                case $stateSearchStartOfTag:
-                    // pattern: ^@<name-of-tag> <rest of line>
-                    $pattern = '(^@([a-z-]*) (.*)$)';
-                    $count = preg_match($pattern, $line, $matches);
-                    if (1 !== $count) {
-                        continue;
-                    }
+            if ($currentState === $stateSearchStartOfTag) {
+                // pattern: ^@<name-of-tag> <rest of line>
+                $pattern = '(^@([a-z-]*) (.*)$)';
+                $count = preg_match($pattern, $line, $matches);
+                if (1 !== $count) {
+                    continue;
+                }
 
-                    $tag = $matches[1];
-                    $restOfLine = $matches[2];
+                // line with starting tag
+                $tag = $matches[1];
+                $restOfLine = $matches[2];
 
-                    if ('{' !== $restOfLine) {
-                        // single-line arguments string
-                        $data[] = [
-                            'tag' => $tag,
-                            'arguments' => $restOfLine
-                        ];
-                    } else {
-                        // multi-line arguments string
-                        $currentState = $stateSearchEndOfMultiLineValue;
-                        $arguments = [];
-                    }
-                    break;
-
-                case $stateSearchEndOfMultiLineValue:
-                    if ('}' !== $line) {
-                        $arguments[] = $line;
-                    } else {
-                        $data[] = [
-                            'tag' => $tag,
-                            'arguments' => $this->trimLeft($arguments),
-                        ];
-                        $currentState = $stateSearchStartOfTag;
-                    }
-                    break;
+                if ('{' !== $restOfLine) {
+                    // single-line arguments string
+                    $data[] = [
+                        'tag' => $tag,
+                        'arguments' => $restOfLine
+                    ];
+                } else {
+                    // start of a multi-line arguments string
+                    $currentState = $stateSearchEndOfMultiLineValue;
+                    $arguments = [];
+                }
+            } else if ($currentState === $stateSearchEndOfMultiLineValue) {
+                if ('}' !== $line) {
+                    // additional line in multi-line argument string
+                    $arguments[] = $line;
+                } else {
+                    // end of a multi-line argument string
+                    $data[] = [
+                        'tag' => $tag,
+                        'arguments' => $this->trimLeft($arguments),
+                    ];
+                    $currentState = $stateSearchStartOfTag;
+                }
             }
         }
 
@@ -157,7 +154,7 @@ final class DocBlockParser
         $shortestSpacePrefix = null;
 
         $pattern = '(^([ ]*)[^ ])';
-        foreach ($lines as $key => $line) {
+        foreach ($lines as $line) {
             $count = preg_match($pattern, $line, $matches);
 
             if (1 === $count) {
