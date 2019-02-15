@@ -104,10 +104,7 @@ final class DocBlockParser
         $stateSearchStartOfTag = 1;
         $stateSearchEndOfMultiLineValue = 2;
 
-        $tag = null;
-        $argumentsString = null;
         $currentState = $stateSearchStartOfTag;
-
         foreach ($lines as $line) {
             switch ($currentState) {
                 case $stateSearchStartOfTag:
@@ -130,17 +127,17 @@ final class DocBlockParser
                     } else {
                         // multi-line arguments string
                         $currentState = $stateSearchEndOfMultiLineValue;
-                        $argumentsString = '';
+                        $arguments = [];
                     }
                     break;
 
                 case $stateSearchEndOfMultiLineValue:
                     if ('}' !== $line) {
-                        $argumentsString .= $line . "\n";
+                        $arguments[] = $line;
                     } else {
                         $data[] = [
                             'tag' => $tag,
-                            'arguments' => $argumentsString,
+                            'arguments' => $this->trimLeft($arguments),
                         ];
                         $currentState = $stateSearchStartOfTag;
                     }
@@ -149,5 +146,40 @@ final class DocBlockParser
         }
 
         return $data;
+    }
+
+    /**
+     * Alligns the lines so that at least in one line there are no preceding spaces
+     */
+    private function trimLeft(array $lines) : string
+    {
+        // find shortest prefix of spaces
+        $shortestSpacePrefix = null;
+
+        $pattern = '(^([ ]*)[^ ])';
+        foreach ($lines as $key => $line) {
+            $count = preg_match($pattern, $line, $matches);
+
+            if (1 === $count) {
+                $currentSpacePrefix = strlen($matches[1]);
+
+                if (
+                    is_null($shortestSpacePrefix) ||
+                    $shortestSpacePrefix > $currentSpacePrefix
+                ) {
+                    $shortestSpacePrefix = $currentSpacePrefix;
+                }
+            }
+        }
+
+        // remove prefix in all lines
+        $replacePattern = sprintf('/^([ ]{%d})/', $shortestSpacePrefix);
+        $lines = preg_replace(
+            $replacePattern,
+            '',
+            $lines
+        );
+
+        return implode("\n", $lines);
     }
 }

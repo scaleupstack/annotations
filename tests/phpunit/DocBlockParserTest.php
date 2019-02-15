@@ -130,6 +130,78 @@ DocBlock;
             'some argument string for another tag',
             DocBlockParser::class
         );
+
+        $this->assertEquals($expectedAnnotations, $annotations);
+    }
+
+    /**
+     * @test
+     * @covers ::extractTagsAndArguments()
+     * @covers ::trimLeft()
+     */
+    public function it_parses_multi_line_annoations_of_a_doc_block()
+    {
+        // given a docblock with single- and multi-line annotations
+        $docBlock = <<<DocBlock
+/**
+ * Some irrelevant description
+ *
+ * @some-tag single-line argument
+ * @some-tag {
+ *     multi-line
+ *     value
+ *
+ *     with empty line
+ * }
+ * @some-tag {
+ *     second
+ *       multi-line
+ *     value
+ * }
+ * @othertag argument in one line
+ * @othertag another argument in one line
+ * @othertag {
+ *   multi-line specification of one line
+ * }
+ */
+DocBlock;
+
+        // when parsing the docblock
+        $annotations = $this->parser->parse($docBlock);
+
+        // then the annotations are created
+        $expectedAnnotations = new Annotations();
+        $expectedAnnotations->add(
+            'some-tag',
+            'single-line argument',
+            DocBlockParser::class
+        );
+        $expectedAnnotations->add(
+            'some-tag',
+            "multi-line\nvalue\n\nwith empty line",
+            DocBlockParser::class
+        );
+        $expectedAnnotations->add(
+            'some-tag',
+            "second\n  multi-line\nvalue",
+            DocBlockParser::class
+        );
+        $expectedAnnotations->add(
+            'othertag',
+            'argument in one line',
+            DocBlockParser::class
+        );
+        $expectedAnnotations->add(
+            'othertag',
+            'another argument in one line',
+            DocBlockParser::class
+        );
+        $expectedAnnotations->add(
+            'othertag',
+            'multi-line specification of one line',
+            DocBlockParser::class
+        );
+
         $this->assertEquals($expectedAnnotations, $annotations);
     }
 }
