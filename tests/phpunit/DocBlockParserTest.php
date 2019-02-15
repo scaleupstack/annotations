@@ -20,6 +20,9 @@ use ScaleUpStack\Annotations\DocBlockParser;
  */
 final class DocBlockParserTest extends TestCase
 {
+    /**
+     * @var DocBlockParser
+     */
     private $parser;
 
     public function setUp()
@@ -39,10 +42,10 @@ final class DocBlockParserTest extends TestCase
         $namespace = DocBlockParser::class;
 
         // when creating the DocBlockParser
-        $parser = new DocBlockParser($namespace);
+        $myParser = new DocBlockParser($namespace);
 
         // then an instance is created
-        $this->assertInstanceOf(DocBlockParser::class, $parser);
+        $this->assertInstanceOf(DocBlockParser::class, $myParser);
     }
 
     public function data_provider_with_empty_docblocks()
@@ -55,7 +58,8 @@ final class DocBlockParserTest extends TestCase
 DocBlock;
         $docBlockWithText = <<<DocBlock
 /**
- * Some description.
+ * Some description plus empty line.
+ *
  */
 DocBlock;
 
@@ -71,6 +75,7 @@ DocBlock;
      * @test
      * @dataProvider data_provider_with_empty_docblocks
      * @covers ::parse()
+     * @covers ::stripDocBlock()
      */
     public function it_parses_a_docblock_without_annotations($emptyDocBlock)
     {
@@ -84,5 +89,47 @@ DocBlock;
             new Annotations(),
             $annotations
         );
+    }
+
+    /**
+     * @test
+     * @covers ::parse()
+     * @covers ::stripDocBlock()
+     * @covers ::extractTagsAndArguments()
+     */
+    public function it_parses_single_line_annotations_of_a_doc_block()
+    {
+        // given a docblock with two annotations: one has one occurence and the other one two
+        $docBlock = <<<DocBlock
+/**
+ * Some irrelevant description
+ *
+ * @some-tag some argument string for the first some-tag
+ * @some-tag some other argument string for the second some-tag
+ * @othertag some argument string for another tag
+ */
+DocBlock;
+
+        // when parsing the docblock
+        $annotations = $this->parser->parse($docBlock);
+
+        // then the annotations are created
+        $expectedAnnotations = new Annotations();
+        $expectedAnnotations->add(
+            'some-tag',
+            'some argument string for the first some-tag',
+            DocBlockParser::class
+        );
+        $expectedAnnotations->add(
+            'some-tag',
+            'some other argument string for the second some-tag',
+            DocBlockParser::class
+        );
+        $expectedAnnotations->add(
+            'othertag',
+            'some argument string for another tag',
+            DocBlockParser::class
+        );
+        $this->assertEquals($expectedAnnotations, $annotations);
     }
 }
