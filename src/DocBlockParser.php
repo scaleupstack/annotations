@@ -16,8 +16,24 @@ final class DocBlockParser
 {
     private $namespace;
 
+    /**
+     * @param string $namespace
+     *        The namespace of the corresponding class/interface is used to resolve class or interface names in
+     *        docblocks.
+     */
     public function __construct(string $namespace)
     {
         $this->namespace = $namespace;
+    }
+
+    public function parse(string $docBlock = null) : array
+    {
+        $annotations = [];
+
+        if (is_null($docBlock)) {
+            return $annotations;
+        }
+
+        return $annotations;
     }
 }

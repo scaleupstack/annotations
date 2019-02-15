@@ -19,6 +19,13 @@ use ScaleUpStack\Annotations\DocBlockParser;
  */
 final class DocBlockParserTest extends TestCase
 {
+    private $parser;
+
+    public function setUp()
+    {
+        $this->parser = new DocBlockParser(DocBlockParser::class);
+    }
+
     /**
      * This test is mainly for code coverage.
      *
@@ -35,5 +42,43 @@ final class DocBlockParserTest extends TestCase
 
         // then an instance is created
         $this->assertInstanceOf(DocBlockParser::class, $parser);
+    }
+
+    public function data_provider_with_empty_docblocks()
+    {
+        $nullDocBlock = null;
+        $emptyStringDocBlock = '';
+        $docBlockWithoutLines = <<<DocBlock
+/**
+ */
+DocBlock;
+        $docBlockWithText = <<<DocBlock
+/**
+ * Some description.
+ */
+DocBlock;
+
+        return [
+            [$nullDocBlock],
+            [$emptyStringDocBlock],
+            [$docBlockWithoutLines],
+            [$docBlockWithText],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider data_provider_with_empty_docblocks
+     * @covers ::parse()
+     */
+    public function it_parses_a_docblock_without_annotations($emptyDocBlock)
+    {
+        // given an empty docblock as provided by the data provider
+
+        // when parsing the docblock
+        $annotations = $this->parser->parse($emptyDocBlock);
+
+        // then an empty array is returned
+        $this->assertSame([], $annotations);
     }
 }
