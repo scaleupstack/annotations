@@ -12,6 +12,7 @@
 
 namespace ScaleUpStack\Annotations\Tests;
 
+use ScaleUpStack\Annotations\Annotations;
 use ScaleUpStack\Annotations\DocBlockParser;
 
 /**
@@ -78,7 +79,10 @@ DocBlock;
         // when parsing the docblock
         $annotations = $this->parser->parse($emptyDocBlock);
 
-        // then an empty array is returned
-        $this->assertSame([], $annotations);
+        // then an empty Annotations collection is returned
+        $this->assertEquals(
+            new Annotations(),
+            $annotations
+        );
     }
 }

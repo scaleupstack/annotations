@@ -26,9 +26,9 @@ final class DocBlockParser
         $this->namespace = $namespace;
     }
 
-    public function parse(string $docBlock = null) : array
+    public function parse(string $docBlock = null) : Annotations
     {
-        $annotations = [];
+        $annotations = new Annotations();
 
         if (is_null($docBlock)) {
             return $annotations;
