@@ -1,0 +1,29 @@
+{
+    "name": "scaleupstack/annotations",
+    "description": "Annotations DocBlock parser for classical DocBlock-style annotations.",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "ScaleUpStack\\Annotations\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ScaleUpStack\\Annotations\\Tests\\": ["tests/phpunit/", "tests/resources/", "tests/fixtures/"]
+        }
+    },
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Thomas Nunninger",
+            "email": "thomas.nunninger@scaleupventures.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.0",
+        "webmozart/assert": "^1."
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7"
+    }
+}
