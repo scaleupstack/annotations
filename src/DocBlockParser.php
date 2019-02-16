@@ -97,12 +97,18 @@ final class DocBlockParser
      */
     private function extractTagsAndArguments(array $lines) : array
     {
+        if ([] === $lines) {
+            return [];
+        }
+
         $data = [];
+        $tag = null;
 
         $stateSearchStartOfTag = 1;
         $stateSearchEndOfMultiLineValue = 2;
 
         $currentState = $stateSearchStartOfTag;
+
         foreach ($lines as $line) {
             if ($currentState === $stateSearchStartOfTag) {
                 // pattern: ^@<name-of-tag><optional: space plus rest of line>
@@ -140,6 +146,15 @@ final class DocBlockParser
                     $currentState = $stateSearchStartOfTag;
                 }
             }
+        }
+
+        if (
+            ! is_null($tag) &&
+            $currentState !== $stateSearchStartOfTag
+        ) {
+            throw new \InvalidArgumentException(
+                sprintf('Closing curly bracket in multi-line annotation is missing for @%s.', $tag)
+            );
         }
 
         return $data;

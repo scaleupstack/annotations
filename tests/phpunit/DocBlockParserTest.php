@@ -76,6 +76,7 @@ DocBlock;
      * @dataProvider data_provider_of_empty_docblocks
      * @covers ::parse()
      * @covers ::stripDocBlock()
+     * @covers ::extractTagsAndArguments()
      */
     public function it_parses_a_docblock_without_annotations($emptyDocBlock)
     {
@@ -180,6 +181,9 @@ DocBlock;
  *       multi-line
  *     value
  * }
+ *
+ * Nothing to parse here
+ *
  * @othertag argument in one line
  * @othertag another argument in one line
  * @othertag {
@@ -294,5 +298,27 @@ DocBlock;
 
         // then an empty Annotations collection is returned
         $this->assertEquals(new Annotations(), $annotations);
+    }
+
+    /**
+     * @test
+     * @covers ::extractTagsAndArguments()
+     */
+    public function it_throws_an_exception_on_invalid_multi_line_annotations()
+    {
+        // given an invalid multi-line specification
+        $docBlock = <<<DocBlock
+/**
+ * @unknown {
+ *    there is no closing "}"
+ */
+DocBlock;
+
+        // when parsing the docblock
+        // then an InvalidArgumentException is thrown
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Closing curly bracket in multi-line annotation is missing for @unknown.');
+
+        $this->parser->parse($docBlock);
     }
 }
