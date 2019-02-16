@@ -17,9 +17,9 @@ use ScaleUpStack\Annotations\DocBlockParser;
 use ScaleUpStack\Annotations\Tests\TestCase;
 
 /**
- * @coversDefaultClass \ScaleUpStack\Annotations\Annotation\UnknownAnnotation
+ * @coversDefaultClass \ScaleUpStack\Annotations\Annotation\AbstractAnnotation
  */
-final class UnknownAnnotationTest extends TestCase
+final class AbstractAnnotationTest extends TestCase
 {
     /**
      * @test

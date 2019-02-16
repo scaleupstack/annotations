@@ -12,33 +12,6 @@
 
 namespace ScaleUpStack\Annotations\Annotation;
 
-final class UnknownAnnotation implements AnnotationInterface
+final class UnknownAnnotation extends AbstractAnnotation
 {
-    private $tag;
-
-    private $arguments;
-
-    private $classNamespace;
-
-    public function __construct(string $tag, string $arguments, string $classNamespace)
-    {
-        $this->tag = $tag;
-        $this->arguments = $arguments;
-        $this->classNamespace = $classNamespace;
-    }
-
-    public function tag() : string
-    {
-        return $this->tag;
-    }
-
-    public function arguments() : string
-    {
-        return $this->arguments;
-    }
-
-    public function classNamespace() : string
-    {
-        return $this->classNamespace;
-    }
 }
