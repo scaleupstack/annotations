@@ -138,7 +138,7 @@ DocBlock;
     /**
      * @test
      */
-    public function it_parses_docblocks_where_annotation_tag_has_no_argument_string()
+    public function it_parses_docblocks_where_single_line_annotation_tag_has_no_argument_string()
     {
         // given a docblock with an annotation withouth arguments string
         $docBlock = <<<DocBlock
@@ -155,6 +155,26 @@ DocBlock;
         $expectedAnnotations->add('some-tag-without-argument-list', '', DocBlockParser::class);
 
         $this->assertEquals($expectedAnnotations, $annotations);
+    }
+
+    /**
+     * @test
+     */
+    public function it_removes_spaces_of_single_line_annotations()
+    {
+        // given a docblock with too many spaces at the beginning and at the end
+        $docBlock = "/**\n" .
+                    " * @unknown   some value   \n" .
+                    " */";
+
+        // when parsing the docblock
+        $annotations = $this->parser->parse($docBlock);
+
+        // then the arguments string is trimmed
+        $expectedAnnoations = new Annotations();
+        $expectedAnnoations->add('unknown', 'some value', DocBlockParser::class);
+
+        $this->assertEquals($expectedAnnoations, $annotations);
     }
 
     /**

@@ -120,13 +120,16 @@ final class DocBlockParser
 
                 // line with starting tag
                 $tag = $matches[1];
-                $restOfLine = array_key_exists(3, $matches) ? $matches[3] : '';
+                $restOfLine = '';
+                if (array_key_exists(3, $matches)) {
+                    $restOfLine = trim($matches[3], ' ');
+                }
 
                 if ('{' !== $restOfLine) {
                     // single-line arguments string
                     $data[] = [
                         'tag' => $tag,
-                        'arguments' => $restOfLine
+                        'arguments' => $restOfLine,
                     ];
                 } else {
                     // start of a multi-line arguments string
