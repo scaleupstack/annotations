@@ -12,6 +12,8 @@
 
 namespace ScaleUpStack\Annotations\Annotation;
 
+use Webmozart\Assert\Assert;
+
 abstract class AbstractAnnotation implements AnnotationInterface
 {
     private $tag;
@@ -32,5 +34,14 @@ abstract class AbstractAnnotation implements AnnotationInterface
     public function arguments() : string
     {
         return $this->arguments;
+    }
+
+    protected function validateTag(string $givenTag, string $expetedTag) : void
+    {
+        Assert::same(
+            $expetedTag,
+            $givenTag,
+            'The tag of the annotation must be %1$s, but %2$s given.'
+        );
     }
 }
