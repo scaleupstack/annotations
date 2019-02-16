@@ -144,7 +144,7 @@ final class DocBlockParser
                     // end of a multi-line argument string
                     $data[] = [
                         'tag' => $tag,
-                        'arguments' => $this->trimLeft($arguments),
+                        'arguments' => $this->trim($arguments),
                     ];
                     $currentState = $stateSearchStartOfTag;
                 }
@@ -164,9 +164,10 @@ final class DocBlockParser
     }
 
     /**
-     * Alligns the lines so that at least in one line there are no preceding spaces
+     * Alligns the lines on the left so that at least in one line there are no preceding spaces, and removes trailing
+     * spaces on the right.
      */
-    private function trimLeft(array $lines) : string
+    private function trim(array $lines) : string
     {
         // find shortest prefix of spaces
         $shortestSpacePrefix = null;
@@ -191,6 +192,12 @@ final class DocBlockParser
         $replacePattern = sprintf('/^([ ]{%d})/', $shortestSpacePrefix);
         $lines = preg_replace(
             $replacePattern,
+            '',
+            $lines
+        );
+
+        $lines = preg_replace(
+            '/([ ]+)$/',
             '',
             $lines
         );

@@ -180,7 +180,7 @@ DocBlock;
     /**
      * @test
      * @covers ::extractTagsAndArguments()
-     * @covers ::trimLeft()
+     * @covers ::trim()
      */
     public function it_parses_multi_line_annoations_of_a_doc_block()
     {
@@ -247,6 +247,28 @@ DocBlock;
             'multi-line specification of one line',
             DocBlockParser::class
         );
+
+        $this->assertEquals($expectedAnnotations, $annotations);
+    }
+
+    /**
+     * @test
+     */
+    public function it_removes_trailing_spaces_of_multi_line_annotations()
+    {
+        // given a docblock with a multi-line annotation and trailing spaces
+        $docBlock = "/**\n" .
+                    " * @unknown {\n" .
+                    " *     space at the end   \n" .
+                    " * }\n" .
+                    " */";
+
+        // when parsing the docblock
+        $annotations = $this->parser->parse($docBlock);
+
+        // then the spaces at the end are trimmed
+        $expectedAnnotations = new Annotations();
+        $expectedAnnotations->add('unknown', 'space at the end', DocBlockParser::class);
 
         $this->assertEquals($expectedAnnotations, $annotations);
     }
