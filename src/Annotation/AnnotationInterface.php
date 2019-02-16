@@ -14,11 +14,9 @@ namespace ScaleUpStack\Annotations\Annotation;
 
 interface AnnotationInterface
 {
-    public function __construct(string $tag, string $arguments, string $classNamespace);
+    public function __construct(string $tag, string $arguments);
 
     public function tag() : string;
 
     public function arguments() : string;
-
-    public function classNamespace() : string;
 }

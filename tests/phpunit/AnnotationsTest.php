@@ -29,18 +29,17 @@ final class AnnotationsTest extends TestCase
      */
     public function it_can_add_and_retrieve_annotations()
     {
-        // given a tag, an arguments string, a class namespace
+        // given a tag, and an arguments string
         $tag = 'unknown';
         $arguments = 'some arguments string';
-        $classNamespace = DocBlockParser::class;
         // and an Annotations collection
         $collection = new Annotations();
 
         // when adding two annotations' information of the same tag to the Annotations collection
-        $collection->add($tag, $arguments, $classNamespace);
-        $collection->add($tag, 'some other arguments', DocBlockParser::class);
+        $collection->add($tag, $arguments);
+        $collection->add($tag, 'some other arguments');
         // and adding another unrelated annotation's information (i.e. an annotation with another tag)
-        $collection->add('othertag', 'other arguments string', DocBlockParser::class);
+        $collection->add('othertag', 'other arguments string');
 
         // then the corresponding annotations of a tag can be retrieved from the Annotations collection
         $annotations = $collection->annotationsByTag($tag);
@@ -48,7 +47,7 @@ final class AnnotationsTest extends TestCase
         $this->assertCount(2, $annotations);
         // and the returned annotations have the correct information
         $this->assertEquals(
-            new UnknownAnnotation($tag, $arguments, $classNamespace),
+            new UnknownAnnotation($tag, $arguments),
             $annotations[0]
         );
     }

@@ -27,25 +27,7 @@ final class DocBlockParserTest extends TestCase
 
     public function setUp()
     {
-        $this->parser = new DocBlockParser(DocBlockParser::class);
-    }
-
-    /**
-     * This test is mainly for code coverage.
-     *
-     * @test
-     * @covers ::__construct()
-     */
-    public function it_can_be_created_with_the_namespace_of_the_class_to_parse()
-    {
-        // given a namespace of the class that will be parsed by this instance
-        $namespace = DocBlockParser::class;
-
-        // when creating the DocBlockParser
-        $myParser = new DocBlockParser($namespace);
-
-        // then an instance is created
-        $this->assertInstanceOf(DocBlockParser::class, $myParser);
+        $this->parser = new DocBlockParser();
     }
 
     public function data_provider_of_empty_docblocks()
@@ -118,18 +100,15 @@ DocBlock;
         $expectedAnnotations = new Annotations();
         $expectedAnnotations->add(
             'some-tag',
-            'some argument string for the first some-tag',
-            DocBlockParser::class
+            'some argument string for the first some-tag'
         );
         $expectedAnnotations->add(
             'some-tag',
-            'some other argument string for the second some-tag',
-            DocBlockParser::class
+            'some other argument string for the second some-tag'
         );
         $expectedAnnotations->add(
             'othertag',
-            'some argument string for another tag',
-            DocBlockParser::class
+            'some argument string for another tag'
         );
 
         $this->assertEquals($expectedAnnotations, $annotations);
@@ -152,7 +131,7 @@ DocBlock;
 
         // then the annotation is created
         $expectedAnnotations = new Annotations();
-        $expectedAnnotations->add('some-tag-without-argument-list', '', DocBlockParser::class);
+        $expectedAnnotations->add('some-tag-without-argument-list', '');
 
         $this->assertEquals($expectedAnnotations, $annotations);
     }
@@ -172,7 +151,7 @@ DocBlock;
 
         // then the arguments string is trimmed
         $expectedAnnoations = new Annotations();
-        $expectedAnnoations->add('unknown', 'some value', DocBlockParser::class);
+        $expectedAnnoations->add('unknown', 'some value');
 
         $this->assertEquals($expectedAnnoations, $annotations);
     }
@@ -219,33 +198,27 @@ DocBlock;
         $expectedAnnotations = new Annotations();
         $expectedAnnotations->add(
             'some-tag',
-            'single-line argument',
-            DocBlockParser::class
+            'single-line argument'
         );
         $expectedAnnotations->add(
             'some-tag',
-            "multi-line\nvalue\n\nwith empty line",
-            DocBlockParser::class
+            "multi-line\nvalue\n\nwith empty line"
         );
         $expectedAnnotations->add(
             'some-tag',
-            "second\n  multi-line\nvalue",
-            DocBlockParser::class
+            "second\n  multi-line\nvalue"
         );
         $expectedAnnotations->add(
             'othertag',
-            'argument in one line',
-            DocBlockParser::class
+            'argument in one line'
         );
         $expectedAnnotations->add(
             'othertag',
-            'another argument in one line',
-            DocBlockParser::class
+            'another argument in one line'
         );
         $expectedAnnotations->add(
             'othertag',
-            'multi-line specification of one line',
-            DocBlockParser::class
+            'multi-line specification of one line'
         );
 
         $this->assertEquals($expectedAnnotations, $annotations);
@@ -268,7 +241,7 @@ DocBlock;
 
         // then the spaces at the end are trimmed
         $expectedAnnotations = new Annotations();
-        $expectedAnnotations->add('unknown', 'space at the end', DocBlockParser::class);
+        $expectedAnnotations->add('unknown', 'space at the end');
 
         $this->assertEquals($expectedAnnotations, $annotations);
     }

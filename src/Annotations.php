@@ -18,9 +18,9 @@ final class Annotations
 {
     private $annotations = [];
 
-    public function add(string $tag, string $arguments, string $classNamespace)
+    public function add(string $tag, string $arguments)
     {
-        $this->annotations[$tag][] = new UnknownAnnotation($tag, $arguments, $classNamespace);
+        $this->annotations[$tag][] = new UnknownAnnotation($tag, $arguments);
     }
 
     public function annotationsByTag(string $tag) : array

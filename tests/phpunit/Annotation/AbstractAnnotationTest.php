@@ -26,21 +26,18 @@ final class AbstractAnnotationTest extends TestCase
      * @covers ::__construct()
      * @covers ::tag()
      * @covers ::arguments()
-     * @covers ::classNamespace()
      */
     public function it_can_be_constructed_and_provides_the_parameters_via_getters()
     {
-        // given a tag, an arguments string, and a class namespace
+        // given a tag, and an arguments string
         $tag = 'some-unknown-tag';
         $arguments = 'some content';
-        $classNamespace = DocBlockParser::class;
 
         // when creating the UnknownAnnotation
-        $annotation = new UnknownAnnotation($tag, $arguments, $classNamespace);
+        $annotation = new UnknownAnnotation($tag, $arguments);
 
-        // then the tag, the arguments, and the class namespace can be retrieved via the setters
+        // then the tag, and the arguments can be retrieved via the setters
         $this->assertSame($tag, $annotation->tag());
         $this->assertSame($arguments, $annotation->arguments());
-        $this->assertSame($classNamespace, $annotation->classNamespace());
     }
 }
