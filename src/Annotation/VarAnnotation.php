@@ -12,7 +12,7 @@
 
 namespace ScaleUpStack\Annotations\Annotation;
 
-use Webmozart\Assert\Assert;
+use ScaleUpStack\Annotations\Assert;
 
 final class VarAnnotation extends AbstractAnnotation
 {

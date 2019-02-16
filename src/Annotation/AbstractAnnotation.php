@@ -12,7 +12,7 @@
 
 namespace ScaleUpStack\Annotations\Annotation;
 
-use Webmozart\Assert\Assert;
+use ScaleUpStack\Annotations\Assert;
 
 abstract class AbstractAnnotation implements AnnotationInterface
 {

@@ -12,6 +12,7 @@
 
 namespace ScaleUpStack\Annotations\Tests\Annotation;
 
+use ScaleUpStack\Annotations\InvalidArgumentException;
 use ScaleUpStack\Annotations\Tests\TestCase;
 
 /**
@@ -71,7 +72,7 @@ abstract class AbstractAnnotationTestCase extends TestCase
 
         // when creating the annotation class
         // then an exception is thrown
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
             sprintf(
                 'Invalid @var type declaration "%s".',

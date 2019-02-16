@@ -14,6 +14,7 @@ namespace ScaleUpStack\Annotations\Tests;
 
 use ScaleUpStack\Annotations\Annotations;
 use ScaleUpStack\Annotations\DocBlockParser;
+use ScaleUpStack\Annotations\InvalidArgumentException;
 
 /**
  * @coversDefaultClass \ScaleUpStack\Annotations\DocBlockParser
@@ -290,7 +291,7 @@ DocBlock;
 
         // when parsing the docblock
         // then an InvalidArgumentException is thrown
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage($expectedExceptionMessage);
 
         $this->parser->parse($invalidDocBlock);
@@ -331,7 +332,7 @@ DocBlock;
 
         // when parsing the docblock
         // then an InvalidArgumentException is thrown
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Closing curly bracket in multi-line annotation is missing for @unknown.');
 
         $this->parser->parse($docBlock);

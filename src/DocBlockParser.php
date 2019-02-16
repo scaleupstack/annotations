@@ -12,8 +12,6 @@
 
 namespace ScaleUpStack\Annotations;
 
-use Webmozart\Assert\Assert;
-
 final class DocBlockParser
 {
     public function parse(string $docBlock = null) : Annotations
@@ -142,7 +140,7 @@ final class DocBlockParser
             ! is_null($tag) &&
             $currentState !== $stateSearchStartOfTag
         ) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf('Closing curly bracket in multi-line annotation is missing for @%s.', $tag)
             );
         }

@@ -21,7 +21,7 @@
     ],
     "require": {
         "php": ">=7.2.0",
-        "webmozart/assert": "^1."
+        "scaleupstack/assert": "^1."
     },
     "require-dev": {
         "phpunit/phpunit": "^7"
