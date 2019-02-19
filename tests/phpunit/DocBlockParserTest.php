@@ -337,4 +337,29 @@ DocBlock;
 
         $this->parser->parse($docBlock);
     }
+
+    /**
+     * @test
+     */
+    public function it_is_less_strict_about_spaces_before_the_star()
+    {
+        // given a docblock with irregular indention (or more than before a class block)
+        $docBlock = <<<DocBlock
+/**
+      * @unknown {
+ *   first line
+         *    second line one space more after star
+      * }
+           */
+DocBlock;
+
+        // when parsing the docblock
+        $annotations = $this->parser->parse($docBlock);
+
+        // then the spacing of the option is relative to the stars
+        $expectedAnnotations = new Annotations();
+        $expectedAnnotations->add('unknown', "first line\n second line one space more after star");
+
+        $this->assertEquals($expectedAnnotations, $annotations);
+    }
 }

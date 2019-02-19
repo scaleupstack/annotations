@@ -56,22 +56,22 @@ final class DocBlockParser
 
         // validate last line
         $lastLine = array_pop($lines);
-        Assert::same(
-            ' */',
+        Assert::regex(
             $lastLine,
-            'Last line of DocBlock must be " */" but %2$s given.'
+            '(^[ ]+\*/$)',
+            'Last line of DocBlock must be " */" but %1$s given.'
         );
 
         // validate other lines
         Assert::allRegex(
             $lines,
-            '/^ \*( |$)/',
+            '/^[ ]+\*( |$)/',
             'Lines in a DocBlock must start with " * " or equal to " *", but %s given.'
         );
 
         // remove leading ' * ' or ' *' and return
         return preg_replace(
-            '/^ \* ?/',
+            '/^[ ]+\* ?/',
             '',
             $lines
         );
