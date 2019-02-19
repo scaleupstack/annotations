@@ -12,6 +12,6 @@
 
 namespace ScaleUpStack\Annotations;
 
-final class InvalidArgumentException extends \InvalidArgumentException
+final class InvalidArgumentException extends \ScaleUpStack\Assert\InvalidArgumentException
 {
 }
