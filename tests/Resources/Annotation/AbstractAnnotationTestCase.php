@@ -10,10 +10,10 @@
  * @link      https://github.com/scaelupstack/annotations
  */
 
-namespace ScaleUpStack\Annotations\Tests\Annotation;
+namespace ScaleUpStack\Annotations\Tests\Resources\Annotation;
 
 use ScaleUpStack\Annotations\InvalidArgumentException;
-use ScaleUpStack\Annotations\Tests\TestCase;
+use ScaleUpStack\Annotations\Tests\Resources\TestCase;
 
 /**
  * Abstract test case for annotations. Just define the class name, the tag plus valid and invalid arguments.

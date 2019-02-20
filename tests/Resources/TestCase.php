@@ -10,7 +10,7 @@
  * @link      https://github.com/scaelupstack/annotations
  */
 
-namespace ScaleUpStack\Annotations\Tests;
+namespace ScaleUpStack\Annotations\Tests\Resources;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {

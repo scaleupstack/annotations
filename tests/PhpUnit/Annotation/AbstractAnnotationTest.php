@@ -10,11 +10,10 @@
  * @link      https://github.com/scaelupstack/annotations
  */
 
-namespace ScaleUpStack\Annotations\Tests\Annotation;
+namespace ScaleUpStack\Annotations\Tests\PhpUnit\Annotation;
 
 use ScaleUpStack\Annotations\Annotation\UnknownAnnotation;
-use ScaleUpStack\Annotations\DocBlockParser;
-use ScaleUpStack\Annotations\Tests\TestCase;
+use ScaleUpStack\Annotations\Tests\Resources\TestCase;
 
 /**
  * @coversDefaultClass \ScaleUpStack\Annotations\Annotation\AbstractAnnotation

@@ -9,7 +9,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "ScaleUpStack\\Annotations\\Tests\\": ["tests/phpunit/", "tests/resources/", "tests/fixtures/"]
+            "ScaleUpStack\\Annotations\\Tests\\": "tests/"
         }
     },
     "license": "BSD-3-Clause",
