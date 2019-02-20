@@ -24,9 +24,15 @@ final class Annotations
 
     private $annotations = [];
 
-    public function add(string $tag, string $arguments)
+    /**
+     * @param int $context
+     *        One of Annotations::CONTEXT_*
+     */
+    public function add(string $tag, string $arguments, int $context)
     {
-        $this->annotations[$tag][] = new UnknownAnnotation($tag, $arguments);
+        $className = AnnotationsRegistry::resolve($tag, $context);
+
+        $this->annotations[$tag][] = new $className($tag, $arguments);
     }
 
     public function annotationsByTag(string $tag) : array

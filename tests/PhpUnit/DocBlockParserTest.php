@@ -65,7 +65,7 @@ DocBlock;
         // given an empty docblock as provided by the data provider
 
         // when parsing the docblock
-        $annotations = $this->parser->parse($emptyDocBlock);
+        $annotations = $this->parser->parse($emptyDocBlock, Annotations::CONTEXT_CLASS);
 
         // then an empty Annotations collection is returned
         $this->assertEquals(
@@ -94,21 +94,24 @@ DocBlock;
 DocBlock;
 
         // when parsing the docblock
-        $annotations = $this->parser->parse($docBlock);
+        $annotations = $this->parser->parse($docBlock, Annotations::CONTEXT_CLASS);
 
         // then the annotations are created
         $expectedAnnotations = new Annotations();
         $expectedAnnotations->add(
             'some-tag',
-            'some argument string for the first some-tag'
+            'some argument string for the first some-tag',
+            Annotations::CONTEXT_CLASS
         );
         $expectedAnnotations->add(
             'some-tag',
-            'some other argument string for the second some-tag'
+            'some other argument string for the second some-tag',
+            Annotations::CONTEXT_CLASS
         );
         $expectedAnnotations->add(
             'othertag',
-            'some argument string for another tag'
+            'some argument string for another tag',
+            Annotations::CONTEXT_CLASS
         );
 
         $this->assertEquals($expectedAnnotations, $annotations);
@@ -127,11 +130,15 @@ DocBlock;
 DocBlock;
 
         // when parsing the annotations
-        $annotations = $this->parser->parse($docBlock);
+        $annotations = $this->parser->parse($docBlock, Annotations::CONTEXT_CLASS);
 
         // then the annotation is created
         $expectedAnnotations = new Annotations();
-        $expectedAnnotations->add('some-tag-without-argument-list', '');
+        $expectedAnnotations->add(
+            'some-tag-without-argument-list',
+            '',
+            Annotations::CONTEXT_CLASS
+        );
 
         $this->assertEquals($expectedAnnotations, $annotations);
     }
@@ -147,11 +154,15 @@ DocBlock;
                     " */";
 
         // when parsing the docblock
-        $annotations = $this->parser->parse($docBlock);
+        $annotations = $this->parser->parse($docBlock, Annotations::CONTEXT_CLASS);
 
         // then the arguments string is trimmed
         $expectedAnnotations = new Annotations();
-        $expectedAnnotations->add('unknown', 'some value');
+        $expectedAnnotations->add(
+            'unknown',
+            'some value',
+            Annotations::CONTEXT_CLASS
+        );
 
         $this->assertEquals($expectedAnnotations, $annotations);
     }
@@ -192,33 +203,39 @@ DocBlock;
 DocBlock;
 
         // when parsing the docblock
-        $annotations = $this->parser->parse($docBlock);
+        $annotations = $this->parser->parse($docBlock, Annotations::CONTEXT_CLASS);
 
         // then the annotations are created
         $expectedAnnotations = new Annotations();
         $expectedAnnotations->add(
             'some-tag',
-            'single-line argument'
+            'single-line argument',
+            Annotations::CONTEXT_CLASS
         );
         $expectedAnnotations->add(
             'some-tag',
-            "multi-line\nvalue\n\nwith empty line"
+            "multi-line\nvalue\n\nwith empty line",
+            Annotations::CONTEXT_CLASS
         );
         $expectedAnnotations->add(
             'some-tag',
-            "second\n  multi-line\nvalue"
+            "second\n  multi-line\nvalue",
+            Annotations::CONTEXT_CLASS
         );
         $expectedAnnotations->add(
             'othertag',
-            'argument in one line'
+            'argument in one line',
+            Annotations::CONTEXT_CLASS
         );
         $expectedAnnotations->add(
             'othertag',
-            'another argument in one line'
+            'another argument in one line',
+            Annotations::CONTEXT_CLASS
         );
         $expectedAnnotations->add(
             'othertag',
-            'multi-line specification of one line'
+            'multi-line specification of one line',
+            Annotations::CONTEXT_CLASS
         );
 
         $this->assertEquals($expectedAnnotations, $annotations);
@@ -237,11 +254,15 @@ DocBlock;
                     " */";
 
         // when parsing the docblock
-        $annotations = $this->parser->parse($docBlock);
+        $annotations = $this->parser->parse($docBlock, Annotations::CONTEXT_CLASS);
 
         // then the spaces at the end are trimmed
         $expectedAnnotations = new Annotations();
-        $expectedAnnotations->add('unknown', 'space at the end');
+        $expectedAnnotations->add(
+            'unknown',
+            'space at the end',
+            Annotations::CONTEXT_CLASS
+        );
 
         $this->assertEquals($expectedAnnotations, $annotations);
     }
@@ -293,7 +314,7 @@ DocBlock;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage($expectedExceptionMessage);
 
-        $this->parser->parse($invalidDocBlock);
+        $this->parser->parse($invalidDocBlock, Annotations::CONTEXT_CLASS);
     }
 
     /**
@@ -309,7 +330,7 @@ DocBlock;
 DocBlock;
 
         // when parsing the docblock
-        $annotations = $this->parser->parse($docBlock);
+        $annotations = $this->parser->parse($docBlock, Annotations::CONTEXT_CLASS);
 
         // then an empty Annotations collection is returned
         $this->assertEquals(new Annotations(), $annotations);
@@ -334,7 +355,7 @@ DocBlock;
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Closing curly bracket in multi-line annotation is missing for @unknown.');
 
-        $this->parser->parse($docBlock);
+        $this->parser->parse($docBlock, Annotations::CONTEXT_CLASS);
     }
 
     /**
@@ -353,11 +374,15 @@ DocBlock;
 DocBlock;
 
         // when parsing the docblock
-        $annotations = $this->parser->parse($docBlock);
+        $annotations = $this->parser->parse($docBlock, Annotations::CONTEXT_CLASS);
 
         // then the spacing of the option is relative to the stars
         $expectedAnnotations = new Annotations();
-        $expectedAnnotations->add('unknown', "first line\n second line one space more after star");
+        $expectedAnnotations->add(
+            'unknown',
+            "first line\n second line one space more after star",
+            Annotations::CONTEXT_CLASS
+        );
 
         $this->assertEquals($expectedAnnotations, $annotations);
     }

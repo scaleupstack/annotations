@@ -14,7 +14,11 @@ namespace ScaleUpStack\Annotations;
 
 final class DocBlockParser
 {
-    public function parse(string $docBlock) : Annotations
+    /**
+     * @param int $context
+     *        One of Annotations::CONTEXT_*
+     */
+    public function parse(string $docBlock, int $context) : Annotations
     {
         $collection = new Annotations();
 
@@ -24,7 +28,8 @@ final class DocBlockParser
         foreach ($annotationsData as $data) {
             $collection->add(
                 $data['tag'],
-                $data['arguments']
+                $data['arguments'],
+                $context
             );
         }
 
