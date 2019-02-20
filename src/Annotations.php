@@ -16,6 +16,12 @@ use ScaleUpStack\Annotations\Annotation\UnknownAnnotation;
 
 final class Annotations
 {
+    const CONTEXT_CLASS = 1;
+
+    const CONTEXT_PROPERTY = 2;
+
+    const CONTEXT_METHOD = 3;
+
     private $annotations = [];
 
     public function add(string $tag, string $arguments)
