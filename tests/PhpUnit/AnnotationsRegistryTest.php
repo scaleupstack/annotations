@@ -17,6 +17,7 @@ use ScaleUpStack\Annotations\Annotation\VarAnnotation;
 use ScaleUpStack\Annotations\Annotations;
 use ScaleUpStack\Annotations\AnnotationsRegistry;
 use ScaleUpStack\Annotations\InvalidArgumentException;
+use ScaleUpStack\Annotations\Tests\Annotation\CustomAnnotation;
 use ScaleUpStack\Annotations\Tests\Resources\TestCase;
 
 /**
@@ -64,6 +65,49 @@ final class AnnotationsRegistryTest extends TestCase
         $this->expectExceptionMessage('Invalid DocBlock context -4.');
 
         AnnotationsRegistry::resolve('var', $context);
+    }
+
+    /**
+     * @test
+     * @covers ::register()
+     */
+    public function it_registers_custom_annotations_and_resolves_them()
+    {
+        // given a tag, a class name, and a context
+        $tag = 'custom';
+        $className = CustomAnnotation::class;
+        $context = Annotations::CONTEXT_PROPERTY;
+
+        // when registering the custom annotation
+        AnnotationsRegistry::register($tag, $className, $context);
+
+        // then it resolves for the correct context but returns the default annotation for other contexts
+        $this->assertSame(
+            $className,
+            AnnotationsRegistry::resolve($tag, $context)
+        );
+        $this->assertSame(
+            UnknownAnnotation::class,
+            AnnotationsRegistry::resolve($tag, Annotations::CONTEXT_CLASS)
+        );
+    }
+
+    /**
+     * @test
+     * @covers ::register()
+     */
+    public function it_throws_an_exception_when_registering_for_an_invalid_context()
+    {
+        // given an invalid context
+        $context = -4;
+
+        // when registering a custom annotation for that invalid context
+        // then an exception is thrown
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid DocBlock context -4.');
+
+        AnnotationsRegistry::register('var', CustomAnnotation::class, $context);
     }
 
     public function tearDown()

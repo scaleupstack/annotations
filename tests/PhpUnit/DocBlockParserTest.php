@@ -150,10 +150,10 @@ DocBlock;
         $annotations = $this->parser->parse($docBlock);
 
         // then the arguments string is trimmed
-        $expectedAnnoations = new Annotations();
-        $expectedAnnoations->add('unknown', 'some value');
+        $expectedAnnotations = new Annotations();
+        $expectedAnnotations->add('unknown', 'some value');
 
-        $this->assertEquals($expectedAnnoations, $annotations);
+        $this->assertEquals($expectedAnnotations, $annotations);
     }
 
     /**
@@ -161,7 +161,7 @@ DocBlock;
      * @covers ::extractTagsAndArguments()
      * @covers ::trim()
      */
-    public function it_parses_multi_line_annoations_of_a_doc_block()
+    public function it_parses_multi_line_annotations_of_a_doc_block()
     {
         // given a docblock with single- and multi-line annotations
         $docBlock = <<<DocBlock
@@ -301,7 +301,7 @@ DocBlock;
      */
     public function it_ignores_an_at_sign_without_tag_name()
     {
-        // given a DocBlock with @ sign but no tag name of the annoation
+        // given a DocBlock with @ sign but no tag name of the annotation
         $docBlock = <<<DocBlock
 /**
  * @ there-was-a-space

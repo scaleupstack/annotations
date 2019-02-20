@@ -23,6 +23,26 @@ final class AnnotationsRegistry
      * @param int $context
      *        One of Annotations::CONTEXT_*.
      */
+    public static function register(string $tag, string $className, int $context) // : void
+    {
+        Assert::range(
+            $context,
+            1,
+            3,
+            'Invalid DocBlock context %s.'
+        );
+
+        if ([] ===  self::$registeredAnnotations) {
+            self::initRegisteredAnnotations();
+        }
+
+        self::$registeredAnnotations[$context][$tag] = $className;
+    }
+
+    /**
+     * @param int $context
+     *        One of Annotations::CONTEXT_*.
+     */
     public static function resolve(string $tag, int $context) : string
     {
         Assert::range(
