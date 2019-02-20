@@ -14,13 +14,9 @@ namespace ScaleUpStack\Annotations;
 
 final class DocBlockParser
 {
-    public function parse(string $docBlock = null) : Annotations
+    public function parse(string $docBlock) : Annotations
     {
         $collection = new Annotations();
-
-        if (is_null($docBlock)) {
-            return $collection;
-        }
 
         $strippedLines = $this->stripDocBlock($docBlock);
         $annotationsData = $this->extractTagsAndArguments($strippedLines);

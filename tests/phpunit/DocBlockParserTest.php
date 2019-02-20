@@ -33,7 +33,6 @@ final class DocBlockParserTest extends TestCase
 
     public function data_provider_of_empty_docblocks()
     {
-        $nullDocBlock = null;
         $emptyStringDocBlock = '';
         $docBlockWithoutLines = <<<DocBlock
 /**
@@ -47,7 +46,6 @@ DocBlock;
 DocBlock;
 
         return [
-            [$nullDocBlock],
             [$emptyStringDocBlock],
             [$docBlockWithoutLines],
             [$docBlockWithText],
