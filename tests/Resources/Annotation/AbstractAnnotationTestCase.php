@@ -75,7 +75,8 @@ abstract class AbstractAnnotationTestCase extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
             sprintf(
-                'Invalid @var type declaration "%s".',
+                'Invalid @%s type declaration "%s".',
+                $this->tag,
                 $argumentString
             )
         );
@@ -87,7 +88,7 @@ abstract class AbstractAnnotationTestCase extends TestCase
     {
         $dataProvider = [];
         foreach ($arguments as $argument) {
-            $dataProvider[] = [$argument];
+            $dataProvider[] = is_array($argument) ? $argument: [$argument];
         }
         return $dataProvider;
     }

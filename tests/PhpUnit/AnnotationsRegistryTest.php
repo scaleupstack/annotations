@@ -12,6 +12,7 @@
 
 namespace ScaleUpStack\Annotations\Tests\PhpUnit;
 
+use ScaleUpStack\Annotations\Annotation\PropertyReadAnnotation;
 use ScaleUpStack\Annotations\Annotation\UnknownAnnotation;
 use ScaleUpStack\Annotations\Annotation\VarAnnotation;
 use ScaleUpStack\Annotations\Annotations;
@@ -30,6 +31,7 @@ final class AnnotationsRegistryTest extends TestCase
         return [
             ['not-handled', Annotations::CONTEXT_CLASS, UnknownAnnotation::class],
             ['var', Annotations::CONTEXT_PROPERTY, VarAnnotation::class],
+            ['property-read', Annotations::CONTEXT_CLASS, PropertyReadAnnotation::class],
         ];
     }
 

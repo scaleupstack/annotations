@@ -26,12 +26,15 @@ final class VarAnnotationTest extends AbstractAnnotationTestCase
 
     protected $validArguments = [
         'int',
+        '\int',
         'bool',
+        '_MyClass',
         '\DateTime',
         'DocBlockParser',
+        'Annotation\DocBlockParser',
         '\PHPUnit\Framework\TestCase',
         'int[]',
-        '1ClassWith2Numbers',
+        'ClassWith1Number',
         'Class_With_Underscores',
     ];
 
@@ -39,5 +42,6 @@ final class VarAnnotationTest extends AbstractAnnotationTestCase
         'Class-With-Hyphen',
         'ClassWithBackslashAtTheEnd\\',
         'argument with spaces',
+        '1NumberAtStart'
     ];
 }

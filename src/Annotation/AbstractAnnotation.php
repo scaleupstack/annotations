@@ -16,6 +16,16 @@ use ScaleUpStack\Annotations\Assert;
 
 abstract class AbstractAnnotation implements AnnotationInterface
 {
+    const PATTERN_DATA_TYPE = '\\\\?' . // optional leading backslash
+                              '(' . // namespace 0..*
+                                  '[a-zA-Z_]' . '[a-zA-Z0-9_]*' . '\\\\' . // <letter, or underscore><letter, digit, or underscore>*<backslash>
+                              ')*' .
+                              '[a-zA-Z_]' . '[a-zA-Z0-9_]*' . // <letter, or underscore><letter, digit, or underscore>*
+                              '(\[\])?'; // optional []
+
+    const PATTERN_VARIABLE_NAME = '\\$([a-zA-Z_][a-zA-Z0-9_]*)'; // $<letter, or underscore><letter, digit, or underscore>*
+
+
     private $tag;
 
     private $arguments;

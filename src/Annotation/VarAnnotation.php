@@ -16,26 +16,15 @@ use ScaleUpStack\Annotations\Assert;
 
 final class VarAnnotation extends AbstractAnnotation
 {
-    public function __construct(string $tag, string $type)
+    public function __construct(string $tag, string $arguments)
     {
         // validated tag
         $this->validateTag($tag, 'var');
 
         // validate type
-        $allowedChars = 'a-zA-Z0-9_';
-        $pattern = sprintf(
-            '/^[%s%s]*[%s](\[\])?$/',
-            $allowedChars,
-            preg_quote('\\'),
-            $allowedChars
-        );
+        $pattern = '/^' . self::PATTERN_DATA_TYPE . '$/';
+        Assert::regex($arguments, $pattern, 'Invalid @var type declaration %s.');
 
-        Assert::regex(
-            $type,
-            $pattern,
-            'Invalid @var type declaration %s.'
-        );
-
-        parent::__construct($tag, $type);
+        parent::__construct($tag, $arguments);
     }
 }

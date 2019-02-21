@@ -12,6 +12,7 @@
 
 namespace ScaleUpStack\Annotations;
 
+use ScaleUpStack\Annotations\Annotation\PropertyReadAnnotation;
 use ScaleUpStack\Annotations\Annotation\UnknownAnnotation;
 use ScaleUpStack\Annotations\Annotation\VarAnnotation;
 
@@ -69,6 +70,7 @@ final class AnnotationsRegistry
     {
         self::$registeredAnnotations = [
             Annotations::CONTEXT_CLASS => [
+                'property-read' => PropertyReadAnnotation::class,
             ],
             Annotations::CONTEXT_PROPERTY => [
                 'var' => VarAnnotation::class,
