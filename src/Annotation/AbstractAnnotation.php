@@ -25,6 +25,7 @@ abstract class AbstractAnnotation implements AnnotationInterface
 
     const PATTERN_VARIABLE_NAME = '\\$([a-zA-Z_][a-zA-Z0-9_]*)'; // $<letter, or underscore><letter, digit, or underscore>*
 
+    const PATTERN_METHOD_NAME = '([a-zA-Z_][a-zA-Z0-9_]*)'; // <letter, or underscore><letter, digit, or underscore>*
 
     private $tag;
 

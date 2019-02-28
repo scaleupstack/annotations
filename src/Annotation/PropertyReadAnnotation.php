@@ -25,7 +25,9 @@ final class PropertyReadAnnotation extends AbstractAnnotation
         // validate tag
         $this->validateTag($tag, 'property-read');
 
-        // validate type
+        parent::__construct($tag, $arguments);
+
+        // validate arguments string and extract information
         $pattern = '/^' .
                      '(' . // optional datatype plus one or more spaces
                         '(' . self::PATTERN_DATA_TYPE . ')[ ]+' .
@@ -36,8 +38,6 @@ final class PropertyReadAnnotation extends AbstractAnnotation
         Assert::regex($arguments, $pattern, 'Invalid @property-read type declaration %s.');
 
         preg_match($pattern, $arguments, $matches);
-
-        parent::__construct($tag, $arguments);
 
         $this->dataType = $matches[2] ?: null;
         $this->propertyName = $matches[5];
