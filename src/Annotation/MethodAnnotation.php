@@ -100,12 +100,15 @@ final class MethodAnnotation extends AbstractAnnotation
 
             $parameterName = $matches[6];
             $dataType = $matches[2] ?: null;
-            $defaultValue = $matches[8] ?: null;
-
+            $hasDefaultValue = '' !== $matches[8];
             $parameters[$parameterName] = [
                 'dataType' => $dataType,
-                'default' => $defaultValue,
+                'hasDefaultValue' => $hasDefaultValue,
             ];
+
+            if ($hasDefaultValue) {
+                $parameters[$parameterName]['default'] = $matches[8];
+            }
 
             $parametersString = array_key_exists(12, $matches) ? $matches[12] : '';
         }

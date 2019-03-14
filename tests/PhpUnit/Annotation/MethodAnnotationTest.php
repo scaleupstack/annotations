@@ -43,7 +43,7 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
             [
                 'someString' => [
                     'dataType' => 'string',
-                    'default' => null,
+                    'hasDefaultValue' => false,
                 ]
             ],
             'int',
@@ -54,15 +54,15 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
             [
                 'someString' => [
                     'dataType' => 'string',
-                    'default' => null,
+                    'hasDefaultValue' => false,
                 ],
                 'date' => [
                     'dataType' => '\DateTime',
-                    'default' => null,
+                    'hasDefaultValue' => false,
                 ],
                 'withoutDataType' => [
                     'dataType' => null,
-                    'default' => null,
+                    'hasDefaultValue' => false,
                 ],
             ],
             'int',
@@ -73,6 +73,7 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
             [
                 'someString' => [
                     'dataType' => 'string',
+                    'hasDefaultValue' => true,
                     'default' => '"Default value"',
                 ],
             ],
@@ -84,6 +85,7 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
             [
                 'someString' => [
                     'dataType' => 'string',
+                    'hasDefaultValue' => true,
                     'default' => "'Default value'",
                 ],
             ],
@@ -95,6 +97,7 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
             [
                 'someString' => [
                     'dataType' => 'string',
+                    'hasDefaultValue' => true,
                     'default' => 'null',
                 ],
             ],
@@ -106,6 +109,7 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
             [
                 'someString' => [
                     'dataType' => 'string',
+                    'hasDefaultValue' => true,
                     'default' => '"default has , and ) in it "',
                 ],
             ],
@@ -117,10 +121,12 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
             [
                 'someString' => [
                     'dataType' => 'string',
+                    'hasDefaultValue' => true,
                     'default' => '"default value with escaped \" double quote"',
                 ],
                 'otherParam' => [
                     'dataType' => null,
+                    'hasDefaultValue' => true,
                     'default' => '"some value"',
                 ],
             ],
@@ -132,10 +138,12 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
             [
                 'someString' => [
                     'dataType' => 'string',
+                    'hasDefaultValue' => true,
                     'default' => "'default value with escaped \' single quote'",
                 ],
                 'otherParam' => [
                     'dataType' => null,
+                    'hasDefaultValue' => true,
                     'default' => "'some value'",
                 ],
             ],
