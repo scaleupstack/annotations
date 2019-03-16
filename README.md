@@ -13,7 +13,7 @@ The built-in set of supported annotations can be extended easily by project-spec
 Use [Composer] to install this library:
 
 ```
-$ composer require scaleupstack/annotations
+$ composer require scaleupstack/annotations dev-master
 ```
 
 
