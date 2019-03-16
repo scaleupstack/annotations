@@ -1,7 +1,15 @@
 {
     "name": "scaleupstack/annotations",
-    "description": "Annotations DocBlock parser for classical DocBlock-style annotations.",
+    "description": "Annotations parser for classical DocBlock-style annotations and an extended multi-line declaration.",
     "type": "library",
+    "keywords": [
+        "annotations",
+        "parser",
+        "docblock",
+        "phpdoc",
+        "metadata",
+        "reflection"
+    ],
     "autoload": {
         "psr-4": {
             "ScaleUpStack\\Annotations\\": "src/"
