@@ -27,15 +27,17 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
     protected $validArguments = [
         [
             'foo()',
-            'foo',
-            [],
-            null,
+            'foo',  // method name
+            [],     // parameters
+            null,   // return type declaration
+            false,  // is static?
         ],
         [
             'int foo()',
             'foo',
             [],
             'int',
+            false,
         ],
         [
             'int foo(string $someString)',
@@ -47,6 +49,7 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
                 ]
             ],
             'int',
+            false,
         ],
         [
             'int foo(string $someString, \DateTime $date, $withoutDataType)',
@@ -66,6 +69,7 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
                 ],
             ],
             'int',
+            false,
         ],
         [
             'int foo(string $someString = "Default value")',
@@ -78,6 +82,7 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
                 ],
             ],
             'int',
+            false,
         ],
         [
             "int foo(string \$someString = 'Default value')",
@@ -90,6 +95,7 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
                 ],
             ],
             'int',
+            false,
         ],
         [
             'null foo(string $someString = null)',
@@ -102,6 +108,7 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
                 ],
             ],
             'null',
+            false,
         ],
         [
             'foo(string $someString = "default has , and ) in it ")',
@@ -113,7 +120,8 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
                     'default' => '"default has , and ) in it "',
                 ],
             ],
-            null
+            null,
+            false,
         ],
         [
             'foo(string $someString = "default value with escaped \" double quote", $otherParam = "some value")',
@@ -130,7 +138,8 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
                     'default' => '"some value"',
                 ],
             ],
-            null
+            null,
+            false,
         ],
         [
             "foo(string \$someString = 'default value with escaped \' single quote', \$otherParam = 'some value')",
@@ -147,7 +156,22 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
                     'default' => "'some value'",
                 ],
             ],
-            null
+            null,
+            false,
+        ],
+        [
+            "static foo()",
+            'foo',
+            [],
+            null,
+            true,
+        ],
+        [
+            "static int foo()",
+            'foo',
+            [],
+            'int',
+            true,
         ],
     ];
 
@@ -176,12 +200,14 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
      * @covers ::methodName()
      * @covers ::parameters()
      * @covers ::returnType()
+     * @covers ::isStatic()
      */
     public function it_extracts_method_name_parameters_and_return_type_from_arguments_string(
         string $arguments,
         string $expectedMethodName,
         array $expectedParameters,
-        ?string $expectedReturnType
+        ?string $expectedReturnType,
+        bool $isStatic
     )
     {
         // given an arguments string as provided via the data provider
@@ -194,5 +220,6 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
         $this->assertSame($expectedMethodName, $annotation->methodName());
         $this->assertSame($expectedParameters, $annotation->parameters());
         $this->assertSame($expectedReturnType, $annotation->returnType());
+        $this->assertSame($isStatic, $annotation->isStatic());
     }
 }

@@ -16,6 +16,8 @@ use ScaleUpStack\Annotations\Assert;
 
 final class MethodAnnotation extends AbstractAnnotation
 {
+    private $isStatic;
+
     private $returnType;
 
     private $methodName;
@@ -33,6 +35,7 @@ final class MethodAnnotation extends AbstractAnnotation
 
         // extract return type, method name and (yet) unprocessed parameters string
         $pattern = '/^' .
+                        '(static[ ]+)?' .                   // optional "static" declaration plus one or more spaces
                         '(' .                               // optional return type plus one or more spaces
                             '(' . self::PATTERN_DATA_TYPE . ')[ ]+' .
                         ')?' .
@@ -45,11 +48,12 @@ final class MethodAnnotation extends AbstractAnnotation
 
         preg_match($pattern, $arguments, $matches);
 
-        $this->returnType = $matches[2] ?: null;
-        $this->methodName = $matches[5];
+        $this->isStatic = $matches[1] !== '' ? true : false;
+        $this->returnType = $matches[3] ?: null;
+        $this->methodName = $matches[6];
 
         // extract parameters from unprocessed parameters string
-        $parameters = $this->parseParametersString($matches[6]);
+        $parameters = $this->parseParametersString($matches[7]);
 
         Assert::notNull(
             $parameters,
@@ -60,6 +64,11 @@ final class MethodAnnotation extends AbstractAnnotation
         );
 
         $this->parameters = $parameters;
+    }
+
+    public function isStatic() : bool
+    {
+        return $this->isStatic;
     }
 
     public function returnType() : ?string
