@@ -19,14 +19,14 @@ $ composer require scaleupstack/annotations
 
 ## Introduction
 
-This library is not yet documented. But perhaps [Metadata] can be helpful to find out how to use it.
+This library is not yet documented. But perhaps [scaleupstack/metadata] can be helpful to find out how to use it.
 
 TODO: to be done
 
 
 ## Current State
 
-This library has been developed with a special intention in mind. It will evolve in the context of [Metadata], and [EasyObject].
+This library has been developed with a special intention in mind. It will evolve in the context of [scaleupstack/metadata], and [scaleupstack/easy-object].
 
 This results in some known limitations that are no high-priority for this intended purpose.
 
@@ -39,7 +39,7 @@ This results in some known limitations that are no high-priority for this intend
 If you are missing anything, feel free to contact me, or create a pull request.
 
 
-Currently those built-in annotations are implemented:
+Currently these built-in annotations are implemented:
 
 * `@method`
 
@@ -48,6 +48,7 @@ Currently those built-in annotations are implemented:
 * `@var`
 
 All other annotations are represented as `UnknownAnnotation`.
+
 
 ## Contribute
 
@@ -72,8 +73,8 @@ Thomas Nunninger <thomas.nunninger@scaleupventures.com><br>
 
 
 [Composer]: https://getcomposer.org
-[Metadata]: https://github.com/scaleupstack/metadata
-[EasyObject]: https://github.com/scaleupstack/easy-object
+[scaleupstack/metadata]: https://github.com/scaleupstack/metadata
+[scaleupstack/easy-object]: https://github.com/scaleupstack/easy-object
 [issue tracker]: https://github.com/scaleupstack/annotations/issues
 [Git repository]: https://github.com/scaleupstack/annotations
 [LICENSE.md]: LICENSE.md
