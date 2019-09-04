@@ -22,7 +22,12 @@ final class VarAnnotation extends AbstractAnnotation
         $this->validateTag($tag, 'var');
 
         // validate type
-        $pattern = '/^' . self::PATTERN_DATA_TYPE . '$/';
+        $pattern = '/^' .
+                        '(' . // union type
+                            self::PATTERN_DATA_TYPE . preg_quote('|') .
+                        ')*' .
+                        self::PATTERN_DATA_TYPE .
+                   '$/';
         Assert::regex($arguments, $pattern, 'Invalid @var type declaration %s.');
 
         parent::__construct($tag, $arguments);

@@ -36,6 +36,7 @@ final class VarAnnotationTest extends AbstractAnnotationTestCase
         'int[]',
         'ClassWith1Number',
         'Class_With_Underscores',
+        'int|string|null',
     ];
 
     protected $invalidArguments = [
