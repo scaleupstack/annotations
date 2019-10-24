@@ -98,7 +98,7 @@ final class DocBlockParser
         foreach ($lines as $line) {
             if ($currentState === $stateSearchStartOfTag) {
                 // pattern: ^@<name-of-tag><optional: space plus rest of line>
-                $pattern = '(^@([a-z-]+)( (.*))?$)';
+                $pattern = '(^@([a-z:-]+)( (.*))?$)';
                 $count = preg_match($pattern, $line, $matches);
                 if (1 !== $count) {
                     continue;

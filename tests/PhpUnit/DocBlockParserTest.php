@@ -90,6 +90,7 @@ DocBlock;
  * @some-tag some argument string for the first some-tag
  * @some-tag some other argument string for the second some-tag
  * @othertag some argument string for another tag
+ * @namespaced:tag some argument
  */
 DocBlock;
 
@@ -111,6 +112,11 @@ DocBlock;
         $expectedAnnotations->add(
             'othertag',
             'some argument string for another tag',
+            Annotations::CONTEXT_CLASS
+        );
+        $expectedAnnotations->add(
+            'namespaced:tag',
+            'some argument',
             Annotations::CONTEXT_CLASS
         );
 
