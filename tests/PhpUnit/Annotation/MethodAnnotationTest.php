@@ -179,6 +179,35 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
             [],
             'int|null',
             false,
+        ],
+        [
+            'foo(string|null $parameter)',
+            'foo',
+            [
+                'parameter' => [
+                    'dataType' => 'string|null',
+                    'hasDefaultValue' => false,
+                ],
+            ],
+            null,
+            false,
+        ],
+        [
+            'int|null foo(string|null $parameter = "defaultValue", $secondParameter)',
+            'foo',
+            [
+                'parameter' => [
+                    'dataType' => 'string|null',
+                    'hasDefaultValue' => true,
+                    'default' => '"defaultValue"',
+                ],
+                'secondParameter' => [
+                    'dataType' => null,
+                    'hasDefaultValue' => false,
+                ]
+            ],
+            'int|null',
+            false,
         ]
     ];
 

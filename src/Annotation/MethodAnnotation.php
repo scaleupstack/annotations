@@ -94,7 +94,14 @@ final class MethodAnnotation extends AbstractAnnotation
     private function parseParametersString(string $parametersString) : ?array
     {
         $parameterPattern = '/^' .
-                                '((' . self::PATTERN_DATA_TYPE . ') )?' .   // optional datatype plus space
+                                '(' .                                       // optional datatype (union type allowed) plus space
+                                    '(' .
+                                        '(' .
+                                            self::PATTERN_DATA_TYPE . preg_quote('|') .
+                                        ')*' .
+                                        self::PATTERN_DATA_TYPE .
+                                    ') ' .
+                                ')?' .
                                 '(' . self::PATTERN_VARIABLE_NAME . ')' .   // parameter name
                                 '( = ' .                                    // optional default value
                                     '(' .
@@ -112,19 +119,19 @@ final class MethodAnnotation extends AbstractAnnotation
                 return null;
             }
 
-            $parameterName = $matches[6];
+            $parameterName = $matches[9];
             $dataType = $matches[2] ?: null;
-            $hasDefaultValue = '' !== $matches[8];
+            $hasDefaultValue = '' !== $matches[11];
             $parameters[$parameterName] = [
                 'dataType' => $dataType,
                 'hasDefaultValue' => $hasDefaultValue,
             ];
 
             if ($hasDefaultValue) {
-                $parameters[$parameterName]['default'] = $matches[8];
+                $parameters[$parameterName]['default'] = $matches[11];
             }
 
-            $parametersString = array_key_exists(12, $matches) ? $matches[12] : '';
+            $parametersString = array_key_exists(15, $matches) ? $matches[15] : '';
         }
 
         return $parameters;
