@@ -36,8 +36,13 @@ final class MethodAnnotation extends AbstractAnnotation
         // extract return type, method name and (yet) unprocessed parameters string
         $pattern = '/^' .
                         '(static[ ]+)?' .                   // optional "static" declaration plus one or more spaces
-                        '(' .                               // optional return type plus one or more spaces
-                            '(' . self::PATTERN_DATA_TYPE . ')[ ]+' .
+                        '(' .                               // optional return type (union type possible) plus one or more spaces
+                            '(' .
+                                '(' .
+                                    self::PATTERN_DATA_TYPE .  preg_quote('|') .
+                                ')*' .
+                                self::PATTERN_DATA_TYPE .
+                            ')[ ]+' .
                         ')?' .
                         self::PATTERN_METHOD_NAME . '\(' .  // method name plus opening bracket
                             '(.*)' .                        // anything till the closing bracket
@@ -50,10 +55,10 @@ final class MethodAnnotation extends AbstractAnnotation
 
         $this->isStatic = $matches[1] !== '' ? true : false;
         $this->returnType = $matches[3] ?: null;
-        $this->methodName = $matches[6];
+        $this->methodName = $matches[9];
 
         // extract parameters from unprocessed parameters string
-        $parameters = $this->parseParametersString($matches[7]);
+        $parameters = $this->parseParametersString($matches[10]);
 
         Assert::notNull(
             $parameters,

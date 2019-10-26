@@ -173,6 +173,13 @@ final class MethodAnnotationTest extends AbstractAnnotationTestCase
             'int',
             true,
         ],
+        [
+            'int|null foo()',
+            'foo',
+            [],
+            'int|null',
+            false,
+        ]
     ];
 
     protected $invalidArguments = [
